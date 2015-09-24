@@ -9,17 +9,17 @@ using WIC;
 
 namespace DummyWIC
 {
+    [Guid("CACAF262-9370-4615-A13B-9F5539DA4C0A")]
+    [ComImport]
+    class WICImagingFactory { }
+
     [ComVisible(true)]
     [Guid("DD48659C-F21F-4C15-AE70-6879ED43B84C")]
     public class Decoder : IWICBitmapDecoder
     {
-
         public void CopyPalette([In, MarshalAs(UnmanagedType.Interface)] IWICPalette pIPalette)
         {
-            unchecked
-            {
-                throw new COMException("No Palette", (int)0x88982f45);
-            }
+            throw new COMException("No Palette", (int)WinCodecErrors.WINCODEC_ERR_PALETTEUNAVAILABLE);
         }
 
         public void GetColorContexts([In] uint cCount, [In, MarshalAs(UnmanagedType.Interface), Out] ref IWICColorContext ppIColorContexts, out uint pcActualCount)
@@ -34,7 +34,11 @@ namespace DummyWIC
 
         public void GetDecoderInfo([MarshalAs(UnmanagedType.Interface)] out IWICBitmapDecoderInfo ppIDecoderInfo)
         {
-            throw new NotSupportedException();
+            var imagingFactory = (IWICImagingFactory)new WICImagingFactory();
+            IWICComponentInfo componentInfo;
+            var guid = GetType().GUID;
+            imagingFactory.CreateComponentInfo(ref guid, out componentInfo);
+            ppIDecoderInfo = (IWICBitmapDecoderInfo)componentInfo;
         }
 
         public void GetFrame([In] uint index, [MarshalAs(UnmanagedType.Interface)] out IWICBitmapFrameDecode ppIBitmapFrame)
@@ -49,7 +53,7 @@ namespace DummyWIC
 
         public void GetMetadataQueryReader([MarshalAs(UnmanagedType.Interface)] out IWICMetadataQueryReader ppIMetadataQueryReader)
         {
-            throw new NotSupportedException();
+            throw new COMException("Not Supported", (int)WinCodecErrors.WINCODEC_ERR_UNSUPPORTEDOPERATION);
         }
 
         public void GetPreview([MarshalAs(UnmanagedType.Interface)] out IWICBitmapSource ppIBitmapSource)

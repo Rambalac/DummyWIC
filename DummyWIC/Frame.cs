@@ -13,10 +13,7 @@ namespace DummyWIC
     {
         public void CopyPalette([In, MarshalAs(UnmanagedType.Interface)] IWICPalette pIPalette)
         {
-            unchecked
-            {
-                throw new COMException("No Palette", (int)0x88982f45);
-            }
+            throw new COMException("No Palette", (int)WinCodecErrors.WINCODEC_ERR_PALETTEUNAVAILABLE);
         }
 
         public void CopyPixels([In] ref WICRect prc, [In] uint cbStride, [In] uint cbBufferSize, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U1, SizeParamIndex = 2), Out] byte[] pbBuffer)
@@ -31,7 +28,7 @@ namespace DummyWIC
 
         public void GetMetadataQueryReader([MarshalAs(UnmanagedType.Interface)] out IWICMetadataQueryReader ppIMetadataQueryReader)
         {
-            throw new NotSupportedException();
+            throw new COMException("Not Supported", (int)WinCodecErrors.WINCODEC_ERR_UNSUPPORTEDOPERATION);
         }
 
         public void GetPixelFormat(out Guid pPixelFormat)
@@ -53,7 +50,7 @@ namespace DummyWIC
 
         public void GetThumbnail([MarshalAs(UnmanagedType.Interface)] out IWICBitmapSource ppIThumbnail)
         {
-            throw new NotSupportedException();
+            throw new COMException("Not Supported", (int)WinCodecErrors.WINCODEC_ERR_CODECNOTHUMBNAIL);
         }
     }
 }
