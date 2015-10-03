@@ -1,0 +1,1 @@
+This is example project for making .NET WIC decoder for Windows 7,8,10
