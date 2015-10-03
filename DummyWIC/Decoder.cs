@@ -68,14 +68,16 @@ namespace DummyWIC
 
         public void Initialize([In, MarshalAs(UnmanagedType.Interface)] IStream pIStream, [In] WICDecodeOptions cacheOptions)
         {
-
+            //Very important to call FinalReleaseComObject after you finished with it. 
+            //Otherwise Windows Photo Viewer will hang on exit and brake whole WIC subsystems (at least in Windows 10) 
+            Marshal.FinalReleaseComObject(pIStream);
         }
 
         public void QueryCapability([In, MarshalAs(UnmanagedType.Interface)] IStream pIStream, out uint pdwCapability)
         {
-            pdwCapability = (uint)(WICBitmapDecoderCapabilities.WICBitmapDecoderCapabilityCanDecodeThumbnail
-                    | WICBitmapDecoderCapabilities.WICBitmapDecoderCapabilityCanDecodeAllImages
-                    | WICBitmapDecoderCapabilities.WICBitmapDecoderCapabilityCanDecodeThumbnail);
+            pdwCapability = (uint)(
+                WICBitmapDecoderCapabilities.WICBitmapDecoderCapabilityCanDecodeThumbnail |
+                WICBitmapDecoderCapabilities.WICBitmapDecoderCapabilityCanDecodeAllImages);
         }
     }
 }
