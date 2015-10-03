@@ -14,7 +14,7 @@ namespace DummyWIC
     class WICImagingFactory { }
 
     [ComVisible(true)]
-    [Guid("DD48659C-F21F-4C15-AE70-6879ED43B84C")]
+    [Guid("Put your decoder GUID here")]
     public class Decoder : IWICBitmapDecoder
     {
         public void CopyPalette([In, MarshalAs(UnmanagedType.Interface)] IWICPalette pIPalette)
@@ -63,6 +63,7 @@ namespace DummyWIC
 
         public void GetThumbnail([MarshalAs(UnmanagedType.Interface)] out IWICBitmapSource ppIThumbnail)
         {
+            //Only for example. Replace with real thumbnail BitmapSource.
             ppIThumbnail = new Frame();
         }
 

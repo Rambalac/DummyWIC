@@ -255,7 +255,7 @@
     <Compile Include="WIC\__MIDL___MIDL_itf_wic_0001_0002_0001.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PanasonicRW2.reg" />
+    <None Include="Decoder registry.reg" />
     <None Include="testKeyfile.snk" />
   </ItemGroup>
   <ItemGroup>
